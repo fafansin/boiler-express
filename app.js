@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const mongoose = require('mongoose');
+const AppError = require('./AppError');
 
 dotenv.config();
 
@@ -34,6 +35,11 @@ app.get('/', (req,res) =>{
 
 app.get('*', (req, res) =>{
     res.render('404');
+})
+
+app.use((err, req, res)=>{
+    const { status = 500, message = 'Something Went Wrong'} = err;
+    res.status(status).send(message);
 })
 
 app.listen(process.env.PORT, ()=>{
