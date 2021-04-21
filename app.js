@@ -30,14 +30,15 @@ app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 
 app.get('/', (req,res) =>{
-    res.render('home');
+    // res.render('home');
+    throw new AppError('Taena this', 401);
 })
 
 app.get('*', (req, res) =>{
     res.render('404');
 })
 
-app.use((err, req, res)=>{
+app.use((err, req, res, next)=>{
     const { status = 500, message = 'Something Went Wrong'} = err;
     res.status(status).send(message);
 })
